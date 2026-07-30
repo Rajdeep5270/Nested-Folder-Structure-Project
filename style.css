@@ -24,13 +24,3 @@ img {
 .sidebar .sidebar-content ul li {
     font-size: 18px;
 }
-
-.sidebar .sidebar-content ul .main-folder i,
-.sidebar .folder-title .extra-buttons {
-    visibility: hidden;
-}
-
-.sidebar .sidebar-content ul .main-folder:hover i,
-.sidebar .folder-title:hover .extra-buttons {
-    visibility: visible;
-}

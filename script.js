@@ -1,6 +1,6 @@
-const allFolders = JSON.parse(localStorage.getItem("allFolders") || "[]");
+let allFolders = JSON.parse(localStorage.getItem("allFolders") || "[]");
 
-// when first time adding folder modal value 
+// adding new folder using modal 
 const folderName = document.getElementById("folderName");
 
 // display folder var
@@ -8,11 +8,9 @@ const mainParent = document.getElementById("mainParent");
 
 // to add folder 
 document.getElementById("addBtn").addEventListener('click', e => {
-    // console.log(folderName.value);
-
     allFolders.push({
         id: Math.floor(Math.random() * 1000),
-        name: folderName.value
+        name: (folderName.value) ? folderName.value : "New Folder"
     });
 
     folderName.value = "";
@@ -22,33 +20,18 @@ document.getElementById("addBtn").addEventListener('click', e => {
     viewAllFolder();
 });
 
-// view all folder's 
+// view all folder function 
 function viewAllFolder() {
-    // let html = "";
-
-    // allFolders.forEach((folder, idx) => {
-    //     html += `
-    //             <ul>
-    //                 <li class="main-folder" id="${folder.name}${idx}">
-    //                     <div class="d-flex">
-    //                         <p>📁<span onclick="editFolderName(${folder.id})" id=mainFolderName${folder.id}>${folder.name}</span></p>
-    //                         <i class="ri-add-fill ms-5" onclick="addSubFolder(${folder.id}, '${folder.name}${idx}')"></i>
-    //                     </div>
-    //                 </li>
-    //             </ul>
-    //     `
-    // });
 
     let html = "<ul>";
     html += renderFolder(allFolders);
     html += "</ul>"
     mainParent.innerHTML = html;
-
-    // mainParent.innerHTML = html;
 }
 
 viewAllFolder();
 
+// render folder function 
 function renderFolder(folders) {
     let html = "";
 
@@ -60,8 +43,6 @@ function renderFolder(folders) {
                     <i class="ri-add-fill ms-5" onclick="addSubFolder(${folder.id}, '${folder.name}${idx}')"></i>
                 </div>
         `;
-
-        // console.log(folder[allKey]);
 
         if (folder.children && folder.children.length > 0) {
             html += "<ul>";
@@ -75,6 +56,7 @@ function renderFolder(folders) {
     return html;
 }
 
+// edit folder name functino 
 function editFolderName(editId) {
     const mainFolderName = document.getElementById(`mainFolderName${editId}`);
 
@@ -88,67 +70,44 @@ function editFolderName(editId) {
 
     inputField.addEventListener('keydown', e => {
         if (e.key == "Enter") {
-            // console.log(inputField.value);
 
-            updateFolderName(editId, inputField.value);
+            const folder = findId(allFolders, editId);
+
+            if (inputField.value)
+                folder.name = inputField.value;
+            else
+                folder.name = "Name Updated";
+
+            setLocalStorage();
+
+            viewAllFolder();
 
             inputField.replaceWith(mainFolderName);
         }
     })
 }
 
-function updateFolderName(updateId, value) {
-    // console.log(updateId);
-    // console.log(value);
-    const folder = allFolders.find(folder => folder.id === updateId);
-
-    // console.log(folder);
-
-    if (value)
-        folder.name = value;
-    else
-        folder.name = "New";
-
-    setLocalStorage();
-
-    viewAllFolder();
-}
-
-
+// add sub folder function 
 function addSubFolder(addId, id) {
-    // console.log("Add Id : ", addId);
-    // console.log("ID : ", id);
-
     const folderFound = findId(allFolders, addId);
 
-    // console.log(folderFound);
-
-    const parentName = document.getElementById(id);
-
-    // console.log(parentName);
-
-    if (!parentName) return;
+    const parent = document.getElementById(id);
 
     const inputField = document.createElement("input");
     inputField.type = "text";
     inputField.id = `newFolderName${addId}`;
 
-    parentName.appendChild(inputField);
-
-    // console.log(parentName);
+    parent.appendChild(inputField);
 
     document.getElementById(`newFolderName${addId}`).addEventListener('keydown', e => {
         if (e.key == 'Enter') {
-            // console.log(e.target.value);
-
             if (!folderFound.children) {
                 folderFound.children = [];
             }
 
             folderFound.children.push({
                 id: Math.floor(Math.random() * 1000),
-                name: e.target.value,
-                children: []
+                name: (e.target.value) ? e.target.value : "New Sub Folder",
             });
 
             setLocalStorage();
@@ -160,10 +119,12 @@ function addSubFolder(addId, id) {
     });
 }
 
+// set to local storage functin 
 function setLocalStorage() {
     localStorage.setItem("allFolders", JSON.stringify(allFolders));
 }
 
+// find folder using id functin 
 function findId(folders, id) {
     for (const folder of folders) {
         if (folder.id === id) {
@@ -180,12 +141,3 @@ function findId(folders, id) {
 
     return null;
 }
-
-{/* <ul>
-                            <li>
-                                <div class="d-flex">
-                                    <p>📁<span id=mainFolderName${folder.id}>${folder.name}</span></p>
-                                    <i class="ri-add-fill ms-5"></i>
-                                </div>
-                            </li>
-                        </ul> */}
