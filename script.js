@@ -22,7 +22,6 @@ document.getElementById("addBtn").addEventListener('click', e => {
 
 // view all folder function 
 function viewAllFolder() {
-
     let html = "<ul>";
     html += renderFolder(allFolders);
     html += "</ul>"
@@ -37,9 +36,9 @@ function renderFolder(folders) {
 
     folders.forEach((folder, idx) => {
         html += `
-            <li class="main-folder" id="${folder.name}${idx}">
-                <div class="d-flex">
-                    <p>📁<span onclick="editFolderName(${folder.id})" id=mainFolderName${folder.id}>${folder.name}</span></p>
+            <li id="${folder.name}${idx}">
+                <div id="${folder.name}${folder.id}" class="main-folder">
+                    <p><span onclick="showFolder('${folder.name}${folder.id}')" class="folder-icon">📁</span><span onclick="editFolderName(${folder.id})" id=mainFolderName${folder.id}>${folder.name}</span></p>
                     <i class="ri-add-fill ms-5" onclick="addSubFolder(${folder.id}, '${folder.name}${idx}')"></i>
                 </div>
         `;
@@ -73,10 +72,10 @@ function editFolderName(editId) {
 
             const folder = findId(allFolders, editId);
 
-            if (inputField.value)
-                folder.name = inputField.value;
-            else
+            if (!inputField.value)
                 folder.name = "Name Updated";
+
+            folder.name = inputField.value;
 
             setLocalStorage();
 
@@ -101,9 +100,8 @@ function addSubFolder(addId, id) {
 
     document.getElementById(`newFolderName${addId}`).addEventListener('keydown', e => {
         if (e.key == 'Enter') {
-            if (!folderFound.children) {
+            if (!folderFound.children)
                 folderFound.children = [];
-            }
 
             folderFound.children.push({
                 id: Math.floor(Math.random() * 1000),
@@ -117,6 +115,13 @@ function addSubFolder(addId, id) {
             viewAllFolder();
         }
     });
+}
+
+// show folder function 
+function showFolder(id) {
+    const parent = document.getElementById(id);
+
+    // console.log(parent.firstElementChild);
 }
 
 // set to local storage functin 
