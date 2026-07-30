@@ -37,19 +37,31 @@ function renderFolder(folders) {
     folders.forEach((folder, idx) => {
         html += `
             <li id="${folder.name}${idx}">
-                <div id="${folder.name}${folder.id}" class="main-folder">
-                    <p><span onclick="showFolder('${folder.name}${folder.id}')" class="folder-icon">📁</span><span onclick="editFolderName(${folder.id})" id=mainFolderName${folder.id}>${folder.name}</span></p>
-                    <i class="ri-add-fill ms-5" onclick="addSubFolder(${folder.id}, '${folder.name}${idx}')"></i>
+                <div class="main-folder">
+                    <span class="folder-icon"
+                        onclick="showFolder('children-${folder.id}')">
+                        📁
+                    </span>
+
+                    <span onclick="editFolderName(${folder.id})"
+                        id="mainFolderName${folder.id}">
+                        ${folder.name}
+                    </span>
+
+                    <i class="ri-add-fill"
+                        onclick="addSubFolder(${folder.id}, '${folder.name}${idx}')"></i>
                 </div>
         `;
 
         if (folder.children && folder.children.length > 0) {
-            html += "<ul>";
-            html += renderFolder(folder.children);
-            html += "</ul>"
+            html += `
+                <ul id="children-${folder.id}" style="display:none;">
+                    ${renderFolder(folder.children)}
+                </ul>
+            `;
         }
 
-        html += "</li>"
+        html += `</li>`;
     });
 
     return html;
@@ -119,9 +131,15 @@ function addSubFolder(addId, id) {
 
 // show folder function 
 function showFolder(id) {
-    const parent = document.getElementById(id);
+    const folder = document.getElementById(id);
 
-    // console.log(parent.firstElementChild);
+    if (!folder) return;
+
+    if (folder.style.display === "none") {
+        folder.style.display = "block";
+    } else {
+        folder.style.display = "none";
+    }
 }
 
 // set to local storage functin 
