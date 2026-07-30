@@ -1,0 +1,77 @@
+:root {
+    --background-color: #0F172A;
+    --grid-lines: #334155;
+    --player-x: #06B6D4;
+    --player-o: #EC4899;
+    --text-color: #F8FAFC;
+}
+
+* {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+/* board section  */
+.board .board-content #box1,
+#box2,
+#box3,
+#box4,
+#box5,
+#box6,
+#box7,
+#box8,
+#box9 {
+    height: 200px;
+    width: 200px;
+    border: 0.5px solid var(--grid-lines);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80px;
+}
+
+.board .board-content #box1,
+#box4,
+#box7 {
+    border-top: none;
+}
+
+.board .board-content #box3,
+#box6,
+#box9 {
+    border-bottom: none;
+}
+
+.board .board-content #box1,
+#box2,
+#box3 {
+    border-left: none;
+}
+
+.board .board-content #box7,
+#box8,
+#box9 {
+    border-right: none;
+}
+
+/* #displayBoard {
+    display: none;
+}*/
+
+#playerNameScore {
+    display: none;
+}
