@@ -68,10 +68,11 @@ img {
     border-right: none;
 }
 
-/* #displayBoard {
-    display: none;
-}*/
-
-#playerNameScore {
+#inputFields,
+#displayBoard,
+#playerNameScore,
+#playerNamesDisplay,
+#restartButton,
+#retryButton {
     display: none;
 }

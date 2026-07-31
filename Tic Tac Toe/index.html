@@ -27,6 +27,15 @@
     </header>
 
     <main>
+        <!-- human vs computer section  -->
+        <section id="optionSelectBtn" class="human-vs-computer">
+            <div class="container">
+                <div class="human-vs-computer-content text-center">
+                    <button id="multiplayer" class="btn btn-primary">Multiplayer</button>
+                    <button id="computer" class="btn btn-primary">Computer</button>
+                </div>
+            </div>
+        </section>
 
         <!-- tic toe section input  -->
         <section id="inputFields" class="input py-5">
@@ -56,6 +65,10 @@
         <!-- tic tac toe section  -->
         <section id="displayBoard" class="board py-5 vw-100">
             <div class="container">
+                <div id="playerNamesDisplay" class="d-flex flex-column">
+                    <h2 id="player1Name"></h2>
+                    <h2 id="player2Name"></h2>
+                </div>
                 <div class="board-content d-flex justify-content-center align-items-center">
                     <div>
                         <div id="box1" class="box"></div>
@@ -76,12 +89,12 @@
             </div>
         </section>
 
-        <!-- section display player name and score  -->
-        <section id="playerNameScore" class="player-name-score">
+        <!-- restart button section  -->
+        <section class="restart">
             <div class="container">
-                <div class="player-content">
-                    <h2 id="player1Details"></h2>
-                    <h2 id="player2Details"></h2>
+                <div class="restart-content">
+                    <button id="retryButton" class="btn btn-success float-end mx-2">Retry</button>
+                    <button id="restartButton" class="btn btn-danger float-end mx-2">Restart</button>
                 </div>
             </div>
         </section>
