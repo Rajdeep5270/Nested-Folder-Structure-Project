@@ -190,7 +190,7 @@ document.getElementById("computer").addEventListener('click', e => {
                 [2, 4, 6]
             ];
 
-            console.log(winningMoves);
+            // console.log(winningMoves);
 
             // Computer move
             const empty = [...button].filter(b => b.innerText === "");
