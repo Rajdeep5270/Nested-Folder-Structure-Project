@@ -157,8 +157,6 @@ document.getElementById("multiplayer").addEventListener('click', e => {
 
 // computer logic 
 document.getElementById("computer").addEventListener('click', e => {
-    alert("Computer button is clicked...");
-
     optionSelectBtn.style.display = "none";
 
     inputFields.style.display = "flex";
@@ -203,11 +201,12 @@ document.getElementById("computer").addEventListener('click', e => {
                 const random = empty[Math.floor(Math.random() * empty.length)];
                 random.innerText = "O";
                 random.style.color = "#EC4899";
+                count++;
             }
 
             isWin = checkCondition();
 
-            if (count >= 9) {
+            if (empty.length === 0 && !isWin) {
                 alert("Game is Tie");
                 restartBtn.style.display = "flex";
                 retryBtn.style.display = "flex";
