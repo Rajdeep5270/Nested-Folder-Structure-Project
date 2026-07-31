@@ -6,6 +6,7 @@ const player2 = document.getElementById("player2");
 
 const inputFields = document.getElementById("inputFields");
 const displayBoard = document.getElementById("displayBoard");
+const playerDetailsButton = document.getElementById("playerDetailsButton");
 
 // player names display 
 const playerNamesDisplay = document.getElementById("playerNamesDisplay");
@@ -31,15 +32,9 @@ let isValue = false;
 let count = 0;
 let isWin = false;
 
-document.getElementById("multiplayer").addEventListener('click', e => {
-
-    optionSelectBtn.style.display = "none";
-
-    inputFields.style.display = "flex";
-
-    const onFormSubmit = (e) => {
-        e.preventDefault();
-
+// start game function 
+function startGame() {
+    playerDetailsButton.addEventListener('click', e => {
         inputFields.style.display = "none";
 
         playerNamesDisplay.style.display = "flex";
@@ -47,15 +42,87 @@ document.getElementById("multiplayer").addEventListener('click', e => {
         player2Name.innerText = player2.value + ": O";
 
         displayBoard.style.display = "flex";
+    })
+};
+
+// get all boxes func 
+function getAllBoxes() {
+    return document.querySelectorAll('.box');
+};
+
+function checkCondition() {
+    if (
+        // X wins
+        (box1.innerText === "X" && box2.innerText === "X" && box3.innerText === "X") ||
+        (box4.innerText === "X" && box5.innerText === "X" && box6.innerText === "X") ||
+        (box7.innerText === "X" && box8.innerText === "X" && box9.innerText === "X") ||
+        (box1.innerText === "X" && box4.innerText === "X" && box7.innerText === "X") ||
+        (box2.innerText === "X" && box5.innerText === "X" && box8.innerText === "X") ||
+        (box3.innerText === "X" && box6.innerText === "X" && box9.innerText === "X") ||
+        (box1.innerText === "X" && box5.innerText === "X" && box9.innerText === "X") ||
+        (box3.innerText === "X" && box5.innerText === "X" && box7.innerText === "X")
+    ) {
+        // player1Details.innerText = "X Wins";
+        alert("X Wins");
+        return isWin = true;
     }
+    else if (
+        // O wins
+        (box1.innerText === "O" && box2.innerText === "O" && box3.innerText === "O") ||
+        (box4.innerText === "O" && box5.innerText === "O" && box6.innerText === "O") ||
+        (box7.innerText === "O" && box8.innerText === "O" && box9.innerText === "O") ||
+        (box1.innerText === "O" && box4.innerText === "O" && box7.innerText === "O") ||
+        (box2.innerText === "O" && box5.innerText === "O" && box8.innerText === "O") ||
+        (box3.innerText === "O" && box6.innerText === "O" && box9.innerText === "O") ||
+        (box1.innerText === "O" && box5.innerText === "O" && box9.innerText === "O") ||
+        (box3.innerText === "O" && box5.innerText === "O" && box7.innerText === "O")
+    ) {
+        // player1Details.innerText = "O Wins";
+        alert("O Wins");
+        return isWin = true;
+    }
+}
 
-    document.querySelectorAll('.box').forEach(element => {
+// restart game button 
+restartBtn.addEventListener('click', e => {
+    alert("Restart Button is clicked...");
+    window.location.reload();
+});
 
+// retry game button 
+retryBtn.addEventListener('click', e => {
+    alert("Retry Button is clicked...");
+
+    isValue = false;
+    count = 0;
+    isWin = false;
+
+    const button = getAllBoxes();
+
+    button.forEach(element => {
+        element.innerText = "";
+    })
+});
+
+// multiplayer logic 
+document.getElementById("multiplayer").addEventListener('click', e => {
+
+    optionSelectBtn.style.display = "none";
+
+    inputFields.style.display = "flex";
+
+    startGame();
+
+    const button = getAllBoxes();
+
+    button.forEach(element => {
         element.addEventListener('click', e => {
             // console.log(e.target.id);
-            let box = document.getElementById(`${e.target.id}`);
+            // let element = document.getElementById(`${e.target.id}`);
 
-            if (box.innerText !== "") {
+            if (isWin) return;
+
+            if (element.innerText !== "") {
                 return;
             }
 
@@ -63,44 +130,17 @@ document.getElementById("multiplayer").addEventListener('click', e => {
 
             isValue = !isValue;
 
-            if (isValue) box.innerText = "X";
-            else box.innerText = "O";
+            if (isValue) element.innerText = "X";
+            else element.innerText = "O";
 
-            (box.innerText === "X") ? box.style.color = "#06B6D4" : box.style.color = "#EC4899";
+            (element.innerText === "X") ? element.style.color = "#06B6D4" : element.style.color = "#EC4899";
 
-            if (
-                // X wins
-                (box1.innerText === "X" && box2.innerText === "X" && box3.innerText === "X") ||
-                (box4.innerText === "X" && box5.innerText === "X" && box6.innerText === "X") ||
-                (box7.innerText === "X" && box8.innerText === "X" && box9.innerText === "X") ||
-                (box1.innerText === "X" && box4.innerText === "X" && box7.innerText === "X") ||
-                (box2.innerText === "X" && box5.innerText === "X" && box8.innerText === "X") ||
-                (box3.innerText === "X" && box6.innerText === "X" && box9.innerText === "X") ||
-                (box1.innerText === "X" && box5.innerText === "X" && box9.innerText === "X") ||
-                (box3.innerText === "X" && box5.innerText === "X" && box7.innerText === "X")
-            ) {
-                // player1Details.innerText = "X Wins";
-                alert("X Wins");
-                isWin = true;
-            }
-            else if (
-                // O wins
-                (box1.innerText === "O" && box2.innerText === "O" && box3.innerText === "O") ||
-                (box4.innerText === "O" && box5.innerText === "O" && box6.innerText === "O") ||
-                (box7.innerText === "O" && box8.innerText === "O" && box9.innerText === "O") ||
-                (box1.innerText === "O" && box4.innerText === "O" && box7.innerText === "O") ||
-                (box2.innerText === "O" && box5.innerText === "O" && box8.innerText === "O") ||
-                (box3.innerText === "O" && box6.innerText === "O" && box9.innerText === "O") ||
-                (box1.innerText === "O" && box5.innerText === "O" && box9.innerText === "O") ||
-                (box3.innerText === "O" && box5.innerText === "O" && box7.innerText === "O")
-            ) {
-                // player1Details.innerText = "O Wins";
-                alert("O Wins");
-                isWin = true;
-            }
+            isWin = checkCondition();
 
-            if (count > 9) {
+            if (count >= 9) {
                 alert("Game is Tie");
+                restartBtn.style.display = "flex";
+                retryBtn.style.display = "flex";
                 // window.location.reload();
             }
 
@@ -111,29 +151,74 @@ document.getElementById("multiplayer").addEventListener('click', e => {
             }
 
         });
+    })
 
-    });
+});
 
-
-})
-
+// computer logic 
 document.getElementById("computer").addEventListener('click', e => {
     alert("Computer button is clicked...");
-})
 
-restartBtn.addEventListener('click', e => {
-    alert("Restart Button is clicked...");
-    window.location.reload;
-});
+    optionSelectBtn.style.display = "none";
 
-retryBtn.addEventListener('click', e => {
-    alert("Retry Button is clicked...");
+    inputFields.style.display = "flex";
 
-    document.querySelectorAll('.box').forEach(element => {
-        element.innerText = "";
-    })
-});
+    player2.value = "Computer";
+    player2.setAttribute('disabled', '');
 
-function startGame() {
+    startGame();
 
-}
+    const button = getAllBoxes();
+
+    let isClicked = true;
+
+    button.forEach(box => {
+        box.addEventListener("click", function () {
+            if (isWin) return;
+
+            if (box.innerText !== "") return;
+
+            box.innerText = "X";
+            box.style.color = "#06B6D4";
+
+            let winningMoves = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            console.log(winningMoves);
+
+            // Computer move
+            const empty = [...button].filter(b => b.innerText === "");
+
+            console.log(empty);
+
+            if (empty.length > 0) {
+                const random = empty[Math.floor(Math.random() * empty.length)];
+                random.innerText = "O";
+                random.style.color = "#EC4899";
+            }
+
+            isWin = checkCondition();
+
+            if (count >= 9) {
+                alert("Game is Tie");
+                restartBtn.style.display = "flex";
+                retryBtn.style.display = "flex";
+                // window.location.reload();
+            }
+
+            if (isWin) {
+                // playerNameScore.style.display = "flex";
+                restartBtn.style.display = "flex";
+                retryBtn.style.display = "flex";
+            }
+        });
+    });
+}); 
