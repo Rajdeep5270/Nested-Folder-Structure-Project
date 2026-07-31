@@ -50,6 +50,7 @@ function getAllBoxes() {
     return document.querySelectorAll('.box');
 };
 
+// check condition func 
 function checkCondition() {
     if (
         // X wins
